@@ -20,55 +20,49 @@ def trenutni_uporabnik():
 
 @bottle.get("/prijava/")
 def prijava_get():
-    return bottle.template("prijava.html", napaka=None)
+    return bottle.template("prijava.html", napaka=None, x = 1)
 
 @bottle.post("/prijava/")
 def prijava_post():
     uporabnisko_ime = bottle.request.forms.getunicode("uporabnisko_ime")
     geslo_v_cistopisu = bottle.request.forms.getunicode("geslo")
     if not uporabnisko_ime:
-        return bottle.template("registracija.html", napaka="Vnesi uporabniško ime!")
+        return bottle.template("registracija.html", napaka="Vnesi uporabniško ime!", x = 1)
     try:
         model.Uporabnik.prijava(uporabnisko_ime, geslo_v_cistopisu)
         bottle.response.set_cookie(PISKOTEK_UPORABNISKO_IME, uporabnisko_ime, path="/", secret=SKRIVNOST)
         bottle.redirect("/")
     except ValueError as e:
-        return bottle.template(
-            "prijava.html", napaka=e.args[0]
-        )
-
-@bottle.post("/odjava/")
-def odjava():
-    bottle.response.delete_cookie(PISKOTEK_UPORABNISKO_IME, path="/")
-    bottle.redirect("/")
+        return bottle.template("prijava.html", napaka=e.args[0], x = 1)
 
 @bottle.get("/registracija/")
 def registracija_get():
-    return bottle.template("registracija.html", napaka=None)
+    return bottle.template("registracija.html", napaka=None, x = 1)
 
 @bottle.post("/registracija/")
 def registracija_post():
     uporabnisko_ime = bottle.request.forms.getunicode("uporabnisko_ime")
     geslo_v_cistopisu = bottle.request.forms.getunicode("geslo")
     if not uporabnisko_ime:
-        return bottle.template("registracija.html", napaka="Vnesi uporabniško ime!")
+        return bottle.template("registracija.html", napaka="Vnesi uporabniško ime!", x = 1)
     try:
         model.Uporabnik.registracija(uporabnisko_ime, geslo_v_cistopisu)
-        bottle.response.set_cookie(
-            PISKOTEK_UPORABNISKO_IME, uporabnisko_ime, path="/", secret=SKRIVNOST
-        )
+        bottle.response.set_cookie(PISKOTEK_UPORABNISKO_IME, uporabnisko_ime, path="/", secret=SKRIVNOST)
         bottle.redirect("/")
     except ValueError as e:
-        return bottle.template(
-            "registracija.html", napaka=e.args[0]
-        )
+        return bottle.template("registracija.html", napaka=e.args[0], x = 1)
+
+@bottle.get("/odjavi/se/")
+def odjava():
+    bottle.response.delete_cookie(PISKOTEK_UPORABNISKO_IME, path = "/")
+    bottle.redirect("/prijava/")
 #-------------------------------------------------------------------------------------------
 #prikaz osnovnega zaslona
 @bottle.get('/')
 def osnovni_zaslon():
   uporabnik = trenutni_uporabnik()
   podatki = [sport for sport in uporabnik.sport.keys()]
-  return bottle.template("osnovna_stran.html", seznam = podatki)
+  return bottle.template("osnovna_stran.html", seznam = podatki, x = 2)
 
 #---------------------------------------------------------------------------------------------
 #opravljenje in preusmerjanje osnovnega zaslona
@@ -85,7 +79,7 @@ def dodaj_vnesen_sport():
     uporabnik.v_datoteko()
     return bottle.redirect('/')
   else:
-    return bottle.redirect('/napaka/1/')
+    return bottle.redirect('/napaka/1/', x = 2)
 
 #-----
 
@@ -108,7 +102,7 @@ def napaka(indeks):
     besedilo = 'šport je že na seznamu športov'
   else:
     besedilo = 'športa se ne da izbrisati saj ga ni seznamu športov'
-  return bottle.template('stran_za_napake.html', napaka = besedilo)
+  return bottle.template('stran_za_napake.html', napaka = besedilo, x = 2)
   
 #----------------------------------------------------------------------------------------------
 #drugi zaslon (zaslon za posamezen sport) 
@@ -118,7 +112,7 @@ def stran_za_disciplino(disciplina):
   podatki = uporabnik.sport
   podatki_za_disciplino = podatki[disciplina]
   povezava = podatki_za_disciplino.slika 
-  return bottle.template('vse_discipline.html', sport = disciplina, url_slika = povezava)
+  return bottle.template('vse_discipline.html', sport = disciplina, url_slika = povezava, x = 2)
 
 #-----------
 @bottle.get('/vnos/<disciplina>/<vrsta>/')
@@ -146,7 +140,7 @@ def vnos(disciplina, vrsta):
   vadba_osnovni = {"disciplina":"", "poudarek":"", "opravljenost":"", "oblika":"", "stevilo_serij":""}
   vadba_osnovni.update(novi_podatki)
 
-  return bottle.template('vnos_podatkov.html', vneseni_podatki = vadba_osnovni, datum = danasnji_datum, url_slika = povezava)
+  return bottle.template('vnos_podatkov.html', vneseni_podatki = vadba_osnovni, datum = danasnji_datum, url_slika = povezava, x = 2)
 
 #-----------
 @bottle.get('/vnos_podatkov/')
@@ -263,14 +257,14 @@ def podrobni_podatki():
   nazaj = 3
   #vnasanje podatkov 
 
-  return bottle.template('izpis_podatkov.html', izpis = vadba, vrednost = nazaj)
+  return bottle.template('izpis_podatkov.html', izpis = vadba, vrednost = nazaj, x = 2)
 #-----------------------------------------------------------------------------------
 @bottle.get('/zadnje_aktivnosti/')
 def izpis_zadnjih_aktivnosti():
   uporabnik = trenutni_uporabnik()
   seznam = uporabnik.seznam
   zadnji_treningi = seznam.treningi
-  return bottle.template('zadnje_aktivnosti.html', izpis = zadnji_treningi)
+  return bottle.template('zadnje_aktivnosti.html', izpis = zadnji_treningi, x = 2)
 #----------
 @bottle.post('/zadnje_aktivnosti/izbrisi/')
 def izbris_aktivnosti():
@@ -297,7 +291,7 @@ def podrobno():
   nazaj = 0
   #zadnje aktivnosti 
 
-  return bottle.template('izpis_podatkov.html', izpis = objekt, vrednost = nazaj)
+  return bottle.template('izpis_podatkov.html', izpis = objekt, vrednost = nazaj, x = 2)
 #------------------------------
 
 @bottle.get('/isci/')
@@ -315,7 +309,7 @@ def isci():
 
   ustrezni = isci_po_poudarku(iskalni_niz, skupaj)
 
-  return bottle.template('iskanje.html', izpisi = ustrezni, kljuc = iskalni_niz, sport = disciplina, url_slika = povezava)
+  return bottle.template('iskanje.html', izpisi = ustrezni, kljuc = iskalni_niz, sport = disciplina, url_slika = povezava, x = 2)
 
 def isci_po_poudarku(beseda, seznam_slovarjev):
     ustrezni = []
@@ -348,7 +342,7 @@ def podrobno_iskanje():
   nazaj = 2
   #isci
 
-  return bottle.template('izpis_podatkov.html', izpis = objekt, vrednost = nazaj, kljuc = iskalni_niz)
+  return bottle.template('izpis_podatkov.html', izpis = objekt, vrednost = nazaj, kljuc = iskalni_niz, x = 2)
 #-----------------------------------
 @bottle.get('/ideje/pregled/')
 def prikazi_ideje():
@@ -356,7 +350,7 @@ def prikazi_ideje():
   ustrezni = uporabnik.seznam.ideje
 
   datum = f'{datetime.datetime.now():%Y-%m-%d}'
-  return bottle.template('izpis_idej.html', izpis = ustrezni, danasnji_datum = datum)
+  return bottle.template('izpis_idej.html', izpis = ustrezni, danasnji_datum = datum, x = 2)
 #-----------------------
 @bottle.post('/opravi/ideja/')
 def opravi_idejo():
@@ -381,6 +375,6 @@ def opravi_idejo():
   nazaj = 1
   #pregled idej
 
-  return bottle.template("izpis_podatkov.html", izpis = objekt, vrednost = nazaj )
+  return bottle.template("izpis_podatkov.html", izpis = objekt, vrednost = nazaj, x = 2 )
 #----------------------------------------------------------------------------------------------
 bottle.run(debug=True, reloader=True)
