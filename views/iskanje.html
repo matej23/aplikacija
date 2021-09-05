@@ -6,14 +6,14 @@
         <ul style="list-style-type:none;">  
             %for aktivnost in izpisi:
             <div class="podatki">
-                <li>ŠPORT: <b>{{aktivnost.panoga}}</b></li>
-                <li>OBLIKA VNOSA: <b>{{aktivnost.oblika}}</b></li>
-                <li>ŠTEVILO SERIJ ZNOTRAJ VADBE: <b>{{aktivnost.stevilo}}</b></li>
+                <li>ŠPORT: <b>{{aktivnost["disciplina"]}}</b></li>
+                <li>OBLIKA VNOSA: <b>{{aktivnost["oblika"]}}</b></li>
+                <li>ŠTEVILO SERIJ ZNOTRAJ VADBE: <b>{{aktivnost["stevilo_serij"]}}</b></li>
             </div>
                 <li>
                     <form action="http://127.0.0.1:8080/isci/podrobno/">
                         <input type="hidden" name="objekt_indeks" value="{{izpisi.index(aktivnost)}}">
-                        <input type="hidden" name="disciplina" value="{{aktivnost.panoga}}">
+                        <input type="hidden" name="disciplina" value="{{aktivnost['panoga']}}">
                         <input type="hidden" name="iskalni_niz" value="{{kljuc}}">
                         <input type = "submit" value="VEČ PODROBNOSTI">
                     </form>

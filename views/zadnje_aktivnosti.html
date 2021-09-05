@@ -10,17 +10,17 @@
             %if len(izpis) > 5:
                 %for aktivnost in izpis[:5]:
                     <div class="podatki">
-                        <li>disciplina: {{aktivnost.panoga}}</li>
-                        <li>poudarek: {{aktivnost.poudarek}}</li>
-                        <li>število serij: {{aktivnost.stevilo}}</li>
+                        <li>disciplina: {{aktivnost["disciplina"]}}</li>
+                        <li>poudarek: {{aktivnost["poudarek"]}}</li>
+                        <li>število serij: {{aktivnost["stevilo_serij"]}</li>
                     </div>
                 %end
             %else:
                 %for aktivnost in izpis:
                     <div class="podatki">
-                        <li><b>disciplina</b>: {{aktivnost.panoga}}</li>
-                        <li><b>poudarek</b>: {{aktivnost.poudarek}}</li>
-                        <li><b>število serij</b>: {{aktivnost.stevilo}}</li>
+                        <li><b>disciplina</b>: {{aktivnost["disciplina"]}}</li>
+                        <li><b>poudarek</b>: {{aktivnost["poudarek"]}}</li>
+                        <li><b>število serij</b>: {{aktivnost["stevilo_serij"]}}</li>
                     </div>
                         <li>
                             <form action="http://127.0.0.1:8080/zadnje_aktivnosti/podrobno/">

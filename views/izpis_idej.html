@@ -9,34 +9,34 @@
         %for ideja in izpis:
             <ul style="list-style-type:none;" class="glavni">
                 <div class="podatki">
-                    <li><b>ŠPORT</b>: {{ideja.disciplina}}</li>
-                    <li><b>POUDAREK</b>: {{ideja.poudarek}}</li>
-                    <li><b>ŠTEVILO SERIJ ZNOTRAJ TRENINGA</b>: {{len(ideja.serije)}}</li>       
+                    <li><b>ŠPORT</b>: {{ideja['disciplina']}}</li>
+                    <li><b>POUDAREK</b>: {{ideja['poudarek']}}</li>
+                    <li><b>ŠTEVILO SERIJ ZNOTRAJ TRENINGA</b>: {{ideja['stevilo_serij']}}</li>       
                     <li><b><u>PODATKI O SERIJAH</u>:</b></li>
                     <ul style="list-style-type:none;">
-                        %for i in range(len(ideja.serije)):
+                        %for i in range(len(int(ideja['stevilo_serij']))):
                             <li><b>PODATKI O {{i +1}}. SERIJI:</b></li>
                                 <ul style="list-style-type:none;">
-                                    %if ideja.serije[i][0] != "":
-                                        <li>RAZDALJA ENE PONOVITVE: {{ideja.serije[i][0]}}</li>
+                                    %if ideja['serije'][i][0] != "":
+                                        <li>RAZDALJA ENE PONOVITVE: {{ideja['serije'][i][0]}}</li>
                                     %end
-                                    %if ideja.serije[i][1] != "":
-                                        <li>ŠTEVILO PONOVITEV: {{ideja.serije[i][1]}}</li>
+                                    %if ideja['serije'][i][1] != "":
+                                        <li>ŠTEVILO PONOVITEV: {{ideja['serije'][i][1]}}</li>
                                     %end
-                                    %if ideja.serije[i][2] != "":
-                                        <li>TRAJANJE PONOVITVE: {{ideja.serije[i][2]}}</li>
+                                    %if ideja['serije'][i][2] != "":
+                                        <li>TRAJANJE PONOVITVE: {{ideja['serije'][i][2]}}</li>
                                     %end
-                                    %if ideja.serije[i][3] != "":
-                                        <li>OPIS: {{ideja.serije[i][3]}}</li>
+                                    %if ideja['serije'][i][3] != "":
+                                        <li>OPIS: {{ideja['serije'][i][3]}}</li>
                                     %end
                                 </ul>
                         %end
                     </ul>
-                    %if ideja.dolžina != 0:
-                        <li><b>SKUPNA DOLŽINA V METRIH</b>: {{ideja.dolžina}}m</li>   
+                    %if ideja['dolzina'] != 0:
+                        <li><b>SKUPNA DOLŽINA V METRIH</b>: {{ideja['dolzina']}}m</li>   
                     %end
-                    %if ideja.trajanje != None:      
-                        <li><b>TRAJANJE</b>: {{ideja.trajanje}}</li>
+                    %if ideja['trajanje'] != None:      
+                        <li><b>TRAJANJE</b>: {{ideja['trajanje']}}</li>
                     %end
                 </div>
                 <li>
