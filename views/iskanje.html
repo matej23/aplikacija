@@ -1,32 +1,35 @@
 % rebase('base.html')
+
 <body>
     %if izpisi == []:
-        <h2>ZA KLJUČ &#8594;<u class="kljuc">{{kljuc}}</u>&#8592; PRI IZBRANEM ŠPORTU NI ZADETKOV</h2><hr>
+    <h2>ZA KLJUČ &#8594;<u class="kljuc">{{kljuc}}</u>&#8592; PRI IZBRANEM ŠPORTU NI ZADETKOV</h2>
+    <hr>
     %else:
-        <h2>KLJUČU &#8594;<u class="kljuc">{{kljuc}}</u>&#8592; ZA IZBRAN ŠPORT USTREZAJO NASLEDNJE VADBE:</h2><hr>
-        <ul style="list-style-type:none;">  
-            %for aktivnost in izpisi:
-            <div class="podatki">
-                <li>ŠPORT: <b>{{aktivnost["disciplina"]}}</b></li>
-                <li>OBLIKA VNOSA: <b>{{aktivnost["oblika"]}}</b></li>
-                <li>ŠTEVILO SERIJ ZNOTRAJ VADBE: <b>{{aktivnost["stevilo_serij"]}}</b></li>
-            </div>
-                <li>
-                    <form action="http://127.0.0.1:8080/isci/podrobno/">
-                        <input type="hidden" name="objekt_indeks" value="{{izpisi.index(aktivnost)}}">
-                        <input type="hidden" name="disciplina" value="{{aktivnost['disciplina']}}">
-                        <input type="hidden" name="iskalni_niz" value="{{kljuc}}">
-                        <input type = "submit" value="VEČ PODROBNOSTI">
-                    </form>
-                </li>
-            %end
-        </ul>
-        <hr>
+    <h2>KLJUČU &#8594;<u class="kljuc">{{kljuc}}</u>&#8592; ZA IZBRAN ŠPORT USTREZAJO NASLEDNJE VADBE:</h2>
+    <hr>
+    <ul style="list-style-type:none;">
+        %for aktivnost in izpisi:
+        <div class="podatki">
+            <li>ŠPORT: <b>{{aktivnost["disciplina"]}}</b></li>
+            <li>OBLIKA VNOSA: <b>{{aktivnost["oblika"]}}</b></li>
+            <li>ŠTEVILO SERIJ ZNOTRAJ VADBE: <b>{{aktivnost["stevilo_serij"]}}</b></li>
+        </div>
+        <li>
+            <form action="http://127.0.0.1:8080/isci/podrobno/">
+                <input type="hidden" name="objekt_indeks" value="{{izpisi.index(aktivnost)}}">
+                <input type="hidden" name="disciplina" value="{{aktivnost['disciplina']}}">
+                <input type="hidden" name="iskalni_niz" value="{{kljuc}}">
+                <input type="submit" value="VEČ PODROBNOSTI">
+            </form>
+        </li>
+        %end
+    </ul>
+    <hr>
     %end
     <p>
         <a href="http://127.0.0.1:8080/{{sport}}/">NAZAJ</a>
         <a href="http://127.0.0.1:8080/">DOMOV</a>
-    </p>    
+    </p>
 
 </body>
 <style>
@@ -36,15 +39,17 @@
         width: 52%;
         border-radius: 4px;
     }
+
     div.podatki {
         padding: 5px;
-        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url("https://i1.sndcdn.com/artworks-000214362504-pzz4sl-t500x500.jpg");
+        background: linear-gradient(rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)), url("https://i1.sndcdn.com/artworks-000214362504-pzz4sl-t500x500.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         margin-left: 0px;
         text-transform: uppercase;
         font-size: 12pt;
     }
+
     input[type=submit] {
         width: 25%;
         margin: 4px 0;
@@ -54,22 +59,26 @@
         font-weight: bold;
         font-size: 9pt;
         color: black;
-        background-color:#5ec4ff;
+        background-color: #5ec4ff;
         padding: 10px 16px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
     }
+
     input[type=submit]:hover {
         font-size: 10pt;
         background-color: #ffffff;
         font-weight: bold;
         color: black;
     }
-    body{
+
+    body {
         background-color: rgb(220, 250, 255);
     }
-    a:link, a:visited {
+
+    a:link,
+    a:visited {
         border-radius: 4px;
         color: black;
         background-color: #ffcccc;
@@ -78,18 +87,22 @@
         text-decoration: none;
         display: inline-block;
     }
-    a:hover, a:active {
+
+    a:hover,
+    a:active {
         background-color: #ffa1a1;
         font-weight: bold;
         color: white;
     }
-    hr{
+
+    hr {
         width: 55%;
         margin: 0px;
     }
-    u.kljuc{
+
+    u.kljuc {
         text-transform: uppercase;
-        color:rgb(1, 143, 143);
+        color: rgb(1, 143, 143);
         text-emphasis-color: rgb(1, 143, 143);
     }
 </style>

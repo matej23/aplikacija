@@ -1,102 +1,122 @@
 % rebase('base.html')
 <div class="slika">
-    <h2><u>PODATKI O VADBI</u></h2>
-    <form action='/vnos_podatkov/'>
-        <p><h3>ŽE VNESENI PODATKI:</h3>
-        <b><u>DISCIPLINA</u></b>: <input type = "text" name="disciplina" value="{{vneseni_podatki['disciplina']}}" readonly>&nbsp;
-        <b><u>OBLIKA</u></b>: <input type = "text" name="oblika" value="{{vneseni_podatki['oblika']}}" readonly>&nbsp;
-        <b><u>POUDAREK</u></b>: <input type = "text" name = "poudarek" value="{{vneseni_podatki['poudarek']}}" readonly>&nbsp;
-        <b><u>ŠTEVILO SERIJ</u></b>: <input type = "number" name="stevilo" value="{{vneseni_podatki['stevilo_serij']}}" readonly>
-        </p>
-        <p>
-        <b>RAZDALJA OGREVANJA:</b> <input type = "number" name="razdalja_ogrevanja" step="50" min="0" placeholder="v metrih...">&nbsp;
-        <b>OPIS:</b> <input type = "text" name = "opis_ogrevanje" placeholder="">&nbsp;
-        <b>TRAJANJE:</b> <input type = "time" name = "trajanje_ogrevanje" step="1">
-        </p><hr>
-    %for indeks in range(int(vneseni_podatki['stevilo_serij'])):
-        <h3><u>SERIJA {{indeks + 1}}:</u></h3>
-        <p>
-        <b>RAZDALJA ENE PONOVITVE</b>: <input type = "number" name = "razdalja{{indeks + 1}}" step="25" min="0" placeholder="v metrih...">&nbsp; 
-        <b>ŠTEVILO PONOVITEV</b>: <input type = "number" name = "ponovitev{{indeks + 1}}" min="1" required>&nbsp;
-        <b>TRAJANJE PONOVITVE</b>: <input type = "time" name = "trajanje_ponovitve{{indeks + 1}}" step="1">&nbsp;
-        <b>OPIS</b>: <input type = "text" name = "opis_serije{{indeks + 1}}" placeholder="opis ene ponovitve..." required>
-        </p><hr>
-    %end
-    %if vneseni_podatki['opravljenost']: 
-        <b>LOKACIJA</b>: <input type = "text" name = "lokacija">&nbsp; 
-        <b>DATUM</b>: <input type = "date" name = "datum" value="{{datum}}" required> 
-    %else:
-        <b>LOKACIJA</b>: <input type = "text" name = "lokacija" placeholder="kraj vadbe...">&nbsp; 
-        <b>DATUM</b>: <input type = "date" name = "datum">   
-    %end  
-        <hr><input type = "submit" value="VNESI VADBO">
-    </form>
+  <h2><u>PODATKI O VADBI</u></h2>
+  <form action='/vnos_podatkov/'>
     <p>
-        <a href="http://127.0.0.1:8080/{{vneseni_podatki['disciplina']}}/">NAZAJ</a>
-        <a href="http://127.0.0.1:8080/">DOMOV</a>
+    <h3>ŽE VNESENI PODATKI:</h3>
+    <b><u>DISCIPLINA</u></b>: <input type="text" name="disciplina" value="{{vneseni_podatki['disciplina']}}"
+      readonly>&nbsp;
+    <b><u>OBLIKA</u></b>: <input type="text" name="oblika" value="{{vneseni_podatki['oblika']}}" readonly>&nbsp;
+    <b><u>POUDAREK</u></b>: <input type="text" name="poudarek" value="{{vneseni_podatki['poudarek']}}" readonly>&nbsp;
+    <b><u>ŠTEVILO SERIJ</u></b>: <input type="number" name="stevilo" value="{{vneseni_podatki['stevilo_serij']}}"
+      readonly>
     </p>
+    <p>
+      <b>RAZDALJA OGREVANJA:</b> <input type="number" name="razdalja_ogrevanja" step="50" min="0"
+        placeholder="v metrih...">&nbsp;
+      <b>OPIS:</b> <input type="text" name="opis_ogrevanje" placeholder="">&nbsp;
+      <b>TRAJANJE:</b> <input type="time" name="trajanje_ogrevanje" step="1">
+    </p>
+    <hr>
+    %for indeks in range(int(vneseni_podatki['stevilo_serij'])):
+    <h3><u>SERIJA {{indeks + 1}}:</u></h3>
+    <p>
+      <b>RAZDALJA ENE PONOVITVE</b>: <input type="number" name="razdalja{{indeks + 1}}" step="25" min="0"
+        placeholder="v metrih...">&nbsp;
+      <b>ŠTEVILO PONOVITEV</b>: <input type="number" name="ponovitev{{indeks + 1}}" min="1" required>&nbsp;
+      <b>TRAJANJE PONOVITVE</b>: <input type="time" name="trajanje_ponovitve{{indeks + 1}}" step="1">&nbsp;
+      <b>OPIS</b>: <input type="text" name="opis_serije{{indeks + 1}}" placeholder="opis ene ponovitve..." required>
+    </p>
+    <hr>
+    %end
+    %if vneseni_podatki['opravljenost']:
+    <b>LOKACIJA</b>: <input type="text" name="lokacija">&nbsp;
+    <b>DATUM</b>: <input type="date" name="datum" value="{{datum}}" required>
+    %else:
+    <b>LOKACIJA</b>: <input type="text" name="lokacija" placeholder="kraj vadbe...">&nbsp;
+    <b>DATUM</b>: <input type="date" name="datum">
+    %end
+    <hr><input type="submit" value="VNESI VADBO">
+  </form>
+  <p>
+    <a href="http://127.0.0.1:8080/{{vneseni_podatki['disciplina']}}/">NAZAJ</a>
+    <a href="http://127.0.0.1:8080/">DOMOV</a>
+  </p>
 </div>
 <style>
-    div {
-        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url({{url_slika}});
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-    input[type=text], select {
-      width: 15%;
-      padding: 10px 16px;
-      margin: 4px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 12pt;
-    }
-    input[type=submit] {
-      width: 10%;
-      background-color: #ffcccc;
-      padding: 10px 16px;
-      margin: 4px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12pt;
-      font-family: 'Times New Roman', Times, serif;
-    }
-    input[type=number], select {
-      width: 8%;
-      padding: 10px 16px;
-      margin: 4px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    input[type=time], select {
-      width: 10%;
-      padding: 10px 16px;
-      margin: 4px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    input[type=date], select {
-      width: 15%;
-      padding: 10px 16px;
-      margin: 4px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    input[type=submit]:hover {
+  div {
+    background: linear-gradient(rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)),
+    url({{url_slika}});
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  input[type=text],
+  select {
+    width: 15%;
+    padding: 10px 16px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 12pt;
+  }
+
+  input[type=submit] {
+    width: 10%;
+    background-color: #ffcccc;
+    padding: 10px 16px;
+    margin: 4px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12pt;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  input[type=number],
+  select {
+    width: 8%;
+    padding: 10px 16px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=time],
+  select {
+    width: 10%;
+    padding: 10px 16px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=date],
+  select {
+    width: 15%;
+    padding: 10px 16px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=submit]:hover {
     background-color: #ffa1a1;
     font-size: 12pt;
     color: white;
     font-family: 'Times New Roman', Times, serif;
-    }
-    a:link, a:visited {
+  }
+
+  a:link,
+  a:visited {
     border-radius: 4px;
     color: black;
     background-color: #ffcccc;
@@ -104,10 +124,12 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    }
-    a:hover, a:active {
+  }
+
+  a:hover,
+  a:active {
     background-color: #ffa1a1;
     font-weight: bold;
     color: white;
-    }
-</style> 
+  }
+</style>

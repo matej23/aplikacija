@@ -1,32 +1,35 @@
 <body>
   %if x == 1:
-    <nav>
-      <a class="modri" href="/registracija/">
-        <strong>Registriraj se</strong>
-      </a>
-      <a class="modri" href="/prijava/">
-        <strong>Prijavi se</strong>
-      </a>
-    </nav>
+  <nav>
+    <a class="modri" href="/registracija/">
+      <strong>Registriraj se</strong>
+    </a>
+    <a class="modri" href="/prijava/">
+      <strong>Prijavi se</strong>
+    </a>
+  </nav>
   %else:
-    <nav>
-      <a class="rdeci" href="/odjavi/se/">
-        <strong>Odjava</strong>
-      </a>
-    </nav>
+  <nav>
+    <a class="rdeci" href="/odjavi/se/">
+      <strong>Odjava</strong>
+    </a>
+  </nav>
   %end
   <section class="section">
     {{!base}}
   </section>
 </body>
 <style>
-  strong{
+  strong {
     text-transform: uppercase;
   }
-  h1{
-    color:rgb(1, 143, 143);
+
+  h1 {
+    color: rgb(1, 143, 143);
   }
-  a.rdeci:link, a.rdeci:visited {
+
+  a.rdeci:link,
+  a.rdeci:visited {
     border-radius: 4px;
     color: black;
     background-color: #ffcccc;
@@ -34,30 +37,38 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    }
-    a.rdeci:hover, a.rdeci:active {
+  }
+
+  a.rdeci:hover,
+  a.rdeci:active {
     background-color: #ffa1a1;
     font-weight: bold;
     color: white;
-    }
-    a.modri:link, a.modri:visited {
-        border-radius: 4px;
-        color: black;
-        background-color: #5ec4ff;
-        padding: 10px 16px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-    }
-    a.modri:hover, a.modri:active {
-            background-color: #ffffff;
-            font-weight: bold;
-            color: black;
-    }
-    body{
-      background-color: rgb(220, 250, 255);
-    }
-    nav {
-      float: right;
-    }
+  }
+
+  a.modri:link,
+  a.modri:visited {
+    border-radius: 4px;
+    color: black;
+    background-color: #5ec4ff;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  a.modri:hover,
+  a.modri:active {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: black;
+  }
+
+  body {
+    background-color: rgb(220, 250, 255);
+  }
+
+  nav {
+    float: right;
+  }
 </style>

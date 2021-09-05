@@ -1,22 +1,29 @@
 % rebase('base.html')
+
 <body>
-    <h2 class="rdece"><u>PRIŠLO JE DO NAPAKE:</u> <div class="veliko">{{napaka}}</div></h2>
+    <h2 class="rdece"><u>PRIŠLO JE DO NAPAKE:</u>
+        <div class="veliko">{{napaka}}</div>
+    </h2>
     <hr>
     <h3>S KLIKOM NA SPODNJI GUMB SE VRNITE NA ZAČETNO STRAN</h3>
     </p>
     <a href="http://127.0.0.1:8080/">NAZAJ</a><br>
 </body>
 <style>
-    body{
+    body {
         background-color: rgb(220, 250, 255);
     }
-    h2.rdece{
+
+    h2.rdece {
         color: rgb(255, 115, 115);
     }
-    div.veliko{
+
+    div.veliko {
         text-transform: uppercase;
     }
-    a:link, a:visited {
+
+    a:link,
+    a:visited {
         border-radius: 4px;
         color: black;
         background-color: #ffcccc;
@@ -25,12 +32,15 @@
         text-decoration: none;
         display: inline-block;
     }
-    a:hover, a:active {
+
+    a:hover,
+    a:active {
         background-color: #ffa1a1;
         font-weight: bold;
         color: white;
     }
-    hr{
+
+    hr {
         width: 50%;
         margin: 0px;
     }

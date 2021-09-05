@@ -1,23 +1,25 @@
 % rebase('base.html')
+
 <body>
-    <h2>ODLIČNO, IZBRALI STE:<div class="caps"><u>{{sport}}</u></div></h2> 
+    <h2>ODLIČNO, IZBRALI STE:<div class="caps"><u>{{sport}}</u></div>
+    </h2>
     <h3>SPODAJ VNESITE POUDAREK ZA VNOS IDEJE/TRENINGA<br>
-    ALI VNESITE KLJUČNO BESEDO ZA ISKANJE PO VNEŠENIH VADBAH</h3>
+        ALI VNESITE KLJUČNO BESEDO ZA ISKANJE PO VNEŠENIH VADBAH</h3>
     <hr>
     <form action='/vnos/{{sport}}/ideja/'>
-        <b>POUDAREK</b>: <input type = "text" name ="poudarek" placeholder="bistvo ideje...">&nbsp;
-        <b>ŠTEVILO SERIJ</b>: <input type="number" name = "stevilo_serij" value="1" min="1" required>&nbsp;
-        <input type ="submit" value="IDEJA">  
+        <b>POUDAREK</b>: <input type="text" name="poudarek" placeholder="bistvo ideje...">&nbsp;
+        <b>ŠTEVILO SERIJ</b>: <input type="number" name="stevilo_serij" value="1" min="1" required>&nbsp;
+        <input type="submit" value="IDEJA">
     </form>
     <form action='/vnos/{{sport}}/trening/'>
-        <b>POUDAREK</b>: <input type = "text" name ="poudarek" placeholder="bistvo treninga..."required>&nbsp;
-        <b>ŠTEVILO SERIJ</b>: <input type="number" name = "stevilo_serij" value="1" min="1" required>&nbsp;
-        <input type ="submit" value="TRENING">  
+        <b>POUDAREK</b>: <input type="text" name="poudarek" placeholder="bistvo treninga..." required>&nbsp;
+        <b>ŠTEVILO SERIJ</b>: <input type="number" name="stevilo_serij" value="1" min="1" required>&nbsp;
+        <input type="submit" value="TRENING">
     </form>
     <form action='/isci/'>
-        <b>ISKALNI KLJUČ</b>: <input type = "text" name ="niz" placeholder="vnos za iskanje...">&nbsp;
-        <input type = "hidden" name="iskana_disciplina" value="{{sport}}">&nbsp;
-        <input type ="submit" value="IŠČI">  
+        <b>ISKALNI KLJUČ</b>: <input type="text" name="niz" placeholder="vnos za iskanje...">&nbsp;
+        <input type="hidden" name="iskana_disciplina" value="{{sport}}">&nbsp;
+        <input type="submit" value="IŠČI">
     </form>
     <br>
     <hr>
@@ -25,12 +27,14 @@
     <a href="http://127.0.0.1:8080">NAZAJ</a>
 </body>
 <style>
-    div.caps{
+    div.caps {
         text-transform: uppercase;
-        color:rgb(1, 143, 143);
+        color: rgb(1, 143, 143);
         text-emphasis-color: rgb(1, 143, 143);
     }
-    input[type=text], select {
+
+    input[type=text],
+    select {
         width: 15%;
         padding: 10px 16px;
         margin: 4px 0;
@@ -53,7 +57,9 @@
         font-size: 10pt;
         font-weight: bold;
     }
-    input[type=number], select {
+
+    input[type=number],
+    select {
         width: 5%;
         padding: 10px 16px;
         margin: 4px 0;
@@ -62,34 +68,42 @@
         border-radius: 4px;
         box-sizing: border-box;
     }
+
     input[type=submit]:hover {
-      background-color: #aaaaaa;
-      font-size: 10pt;
-      color: white;
+        background-color: #aaaaaa;
+        font-size: 10pt;
+        color: white;
     }
-    body{
+
+    body {
         background-color: rgb(220, 250, 255);
     }
+
     img {
         padding: 25px;
         border-radius: 33px;
     }
-    hr{
-        width:665px;
+
+    hr {
+        width: 665px;
         margin: 0px;
     }
-    a:link, a:visited {
-    border-radius: 4px;
-    color: black;
-    background-color: #ffcccc;
-    padding: 10px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+
+    a:link,
+    a:visited {
+        border-radius: 4px;
+        color: black;
+        background-color: #ffcccc;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
     }
-    a:hover, a:active {
-    background-color: #ffa1a1;
-    font-weight: bold;
-    color: white;
+
+    a:hover,
+    a:active {
+        background-color: #ffa1a1;
+        font-weight: bold;
+        color: white;
     }
 </style>
