@@ -3,23 +3,23 @@
     <hr>
     <ul style="list-style-type:none;" class="glavna">
         <div class="podatki">
-        <li><b>šport:</b> {{izpis.disciplina}}</li>
-        <li><b>vrsta vnosa:</b> {{izpis.oblika}}</li>
-        <li><b>poudarek:</b> {{izpis.poudarek}}</li>
-        <li><b>število serij znotraj treninga:</b> {{len(izpis.serije)}}</li>
+        <li><b>šport:</b> {{izpis["disciplina"]}}</li>
+        <li><b>vrsta vnosa:</b> {{izpis["oblika"]}}</li>
+        <li><b>poudarek:</b> {{izpis["poudarek"]}}</li>
+        <li><b>število serij znotraj treninga:</b> {{izpis["stevilo_serij"]}}</li>
         <br>
 
-        %if izpis.ogrevanje[0] != "" or izpis.ogrevanje[1] != "" or izpis.ogrevanje[2] != "":
+        %if izpis["ogrevanje"][0] != "" or izpis["ogrevanje"][1] != "" or izpis['ogrevanje'][2] != "":
             <li><b>podatki o ogrevanju:</b></li>
         <ul style="list-style-type:none;">
-            %if izpis.ogrevanje[1] != "":
-                <li>opis ogrevanja: {{izpis.ogrevanje[1]}}</li>
+            %if izpis["ogrevanje"][1] != "":
+                <li>opis ogrevanja: {{izpis["ogrevanje"][1]}}</li>
             %end
-            %if izpis.ogrevanje[0] != "":
-                <li>razdalja v metrih: {{izpis.ogrevanje[0]}}</li>
+            %if izpis["ogrevanje"][0] != "":
+                <li>razdalja v metrih: {{izpis["ogrevanje"][0]}}</li>
             %end
-            %if izpis.ogrevanje[2] != "":
-                <li>trajanje ogrevanja: {{izpis.ogrevanje[2]}}</li>
+            %if izpis["ogrevanje"][2] != "":
+                <li>trajanje ogrevanja: {{izpis["ogrevanje"][2]}}</li>
             %end
         </ul>
             <br>
@@ -27,37 +27,37 @@
 
         <li><b><u>podatki o serijah</u></b></li>
         <ul style="list-style-type:none;">
-            %for i in range(len(izpis.serije)):
+            %for i in range(int(izpis["stevilo_serij"])):
                 <br>
                 <li><b>podatki o {{i +1}}. seriji:</b></li>
                     <ul style="list-style-type:none;">
-                        %if izpis.serije[i][0] != "":
-                            <li>razdalja ene ponovitve v metrih: {{izpis.serije[i][0]}}</li>
+                        %if izpis["serije"][i][0] != "":
+                            <li>razdalja ene ponovitve v metrih: {{izpis["serije"][i][0]}}</li>
                         %end
-                        %if izpis.serije[i][1] != "":
-                            <li>število ponovitev: {{izpis.serije[i][1]}}</li>
+                        %if izpis["serije"][i][1] != "":
+                            <li>število ponovitev: {{izpis["serije"][i][1]}}</li>
                         %end
-                        %if izpis.serije[i][2] != "":
-                            <li>trajanje ponovitve: {{izpis.serije[i][2]}}</li>
+                        %if izpis["serije"][i][2] != "":
+                            <li>trajanje ponovitve: {{izpis["serije"][i][2]}}</li>
                         %end
-                        %if izpis.serije[i][3] != "":
-                            <li>opis: {{izpis.serije[i][3]}}</li>
+                        %if izpis["serije"][i][3] != "":
+                            <li>opis: {{izpis["serije"][i][3]}}</li>
                         %end
                     </ul>
             %end
             <br>
         </ul>
-        %if izpis.dolžina != 0:
-            <li><b>skupna dolžina v metrih:</b> {{izpis.dolžina}}</li>   
+        %if izpis["dolzina"] != 0:
+            <li><b>skupna dolžina v metrih:</b> {{izpis["dolzina"]}}</li>   
         %end
-        %if izpis.trajanje != None:      
-            <li><b>trajanje:</b> {{izpis.trajanje}}</li>
+        %if izpis["trajanje"] != None:      
+            <li><b>trajanje:</b> {{izpis["trajanje"]}}</li>
         %end
-        %if izpis.kraj != "":
-            <li><b>kraj izvedbe:</b> {{izpis.kraj}}</li>
+        %if izpis['kraj'] != "":
+            <li><b>kraj izvedbe:</b> {{izpis['kraj']}}</li>
         %end
-        %if izpis.datum != "":
-            <li><b>datum izvedbe:</b> {{izpis.datum}}</li>
+        %if izpis['datum'] != "":
+            <li><b>datum izvedbe:</b> {{izpis['datum']}}</li>
         %end
         </div>
     </ul>
@@ -86,7 +86,7 @@
 
     %if vrednost == 3:
         <p>
-            <a href="http://127.0.0.1:8080/{{izpis.disciplina}}/">NAZAJ NA VNAŠANJE PODATKOV</a>
+            <a href="http://127.0.0.1:8080/{{izpis['disciplina']}}/">NAZAJ NA VNAŠANJE PODATKOV</a>
         </p>
     %end
         <p>

@@ -9,14 +9,26 @@ kolesarjenje_slika = "https://www.teamjumbovisma.com/uploads/_1134x618_crop_cent
 sporti_slike = {'kolesarjenje':kolesarjenje_slika, 'plavanje':plavanje_slika, 'tek':tek_slika}
 #------------------------------------------------------
 class Šport:
-    def __init__(self, disciplina, slika, seznam_vadb = [], seznam_treningov = []):
+    def __init__(self, disciplina, slika, seznam_idej = [], seznam_treningov = []):
         self.disciplina = disciplina
         self.slika = slika
-        self.seznam_v = seznam_vadb
+        self.seznam_i = seznam_idej
         self.seznam_t = seznam_treningov
+
+    def dodaj_idejo(self,ideja):
+        self.seznam_i.append(ideja)
+
+    def dodaj_trening(self,trening):
+        self.seznam_t.append(trening)
+
+    def odstrani_idejo(self,ideja):
+        self.seznam_i.remove(ideja)
+        
+    def odstrani_trening(self,trening):
+        self.seznam_t.remove(trening)
     
     def v_slovar(self):
-        return {"discipline":self.disciplina, "slike": self.slika, "vadbe":self.seznam_v, "treningi":self.seznam_t}
+        return {"discipline":self.disciplina, "slike": self.slika, "vadbe":self.seznam_i, "treningi":self.seznam_t}
 
     @classmethod
     def iz_slovarja(self, slovar_s_stanjem):
@@ -60,9 +72,7 @@ class Seznam:
         seznam = Seznam(treningi, ideje) 
         return seznam 
 
-#disciplina, poudarek, opravljenost, oblika stevilo_serij, datum, kraj, serije, ogrevanje, dolžina, trajanje
     
-
 class Uporabnik:
     def __init__(self, uporabnisko_ime, zasifrirano_geslo, seznam = Seznam(), sporti = {"tek": Šport("tek", sporti_slike["tek"]), "plavanje": Šport("plavanje", sporti_slike["plavanje"]),"kolesarjenje": Šport("kolesarjenje", sporti_slike["kolesarjenje"])}):
         self.uporabnisko_ime = uporabnisko_ime
