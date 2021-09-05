@@ -1,29 +1,59 @@
 % rebase('base.html')
-<form method="POST">
-    <div class="field">
-        <label class="label">Uporabniško ime</label>
-        <div class="control has-icons-left">
-            <input class="input" name="uporabnisko_ime" type="text" placeholder="uporabniško ime">
-            <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-            </span>
-        </div>
-        % if napaka:
-        <p class="help is-danger">{{ napaka }}</p>
-        % end
+<body>
+    <div class="ozadje">
+        <form method="POST">
+            <b>UPORABNIŠKO IME</b>: <input name="uporabnisko_ime" type="text" placeholder="uporabniško ime...">
+            <br>
+            % if napaka:
+            <p class="help is-danger">{{ napaka }}</p>
+            % end
+            <b>GESLO</b>: <input name="geslo" type="password" placeholder="geslo...">
+            <br>
+            <input type="submit" value="REGISTRIRAJ SE">
+        </form>
     </div>
-    <div class="field">
-        <label class="label">Geslo</label>
-        <div class="control has-icons-left">
-            <input class="input" name="geslo" type="password" placeholder="geslo">
-            <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-            </span>
-        </div>
-    </div>
-    <div class="field is-grouped">
-        <div class="control">
-            <button class="button is-link">Registriraj se</button>
-        </div>
-    </div>
-</form>
+</body>
+<style>
+    div{
+        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url("https://i1.sndcdn.com/artworks-000214362504-pzz4sl-t500x500.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    input[type=password], select {
+      width: 15%;
+      padding: 10px 16px;
+      margin: 4px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 12pt;
+    }
+    input[type=text], select {
+      width: 15%;
+      padding: 10px 16px;
+      margin: 4px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 12pt;
+    }
+    input[type=submit] {
+      width: 10%;
+      background-color: #ffcccc;
+      padding: 10px 16px;
+      margin: 4px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12pt;
+      font-family: 'Times New Roman', Times, serif;
+    }
+    input[type=submit]:hover {
+    background-color: #ffa1a1;
+    font-size: 12pt;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    }
+</style>
