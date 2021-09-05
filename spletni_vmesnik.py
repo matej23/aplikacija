@@ -79,7 +79,7 @@ def dodaj_vnesen_sport():
     uporabnik.v_datoteko()
     return bottle.redirect('/')
   else:
-    return bottle.redirect('/napaka/1/', x = 2)
+    return bottle.redirect('/napaka/1/')
 
 #-----
 
