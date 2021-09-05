@@ -1,0 +1,106 @@
+<body>
+    %url_slika = "https://i1.sndcdn.com/artworks-000214362504-pzz4sl-t500x500.jpg"
+    %if len(izpis) == 0:
+        <h2>NI ZADNJIH AKTIVNOSTI, PROSIM VNESITE TRENING</h2>
+        <hr>
+    %else:
+        <h2>ZADNJE AKTIVNOSTI SO:</h2>
+        <hr>
+        <ul style="list-style-type:none;">
+            %if len(izpis) > 5:
+                %for aktivnost in izpis[:5]:
+                    <div class="podatki">
+                        <li>disciplina: {{aktivnost.panoga}}</li>
+                        <li>poudarek: {{aktivnost.poudarek}}</li>
+                        <li>število serij: {{aktivnost.stevilo}}</li>
+                    </div>
+                %end
+            %else:
+                %for aktivnost in izpis:
+                    <div class="podatki">
+                        <li><b>disciplina</b>: {{aktivnost.panoga}}</li>
+                        <li><b>poudarek</b>: {{aktivnost.poudarek}}</li>
+                        <li><b>število serij</b>: {{aktivnost.stevilo}}</li>
+                    </div>
+                        <li>
+                            <form action="http://127.0.0.1:8080/zadnje_aktivnosti/podrobno/">
+                                <input type="hidden" name="objekt_indeks" value="{{izpis.index(aktivnost)}}">
+                                <input type = "submit" value="VEČ PODROBNOSTI">
+                            </form>
+                            <form action="http://127.0.0.1:8080/zadnje_aktivnosti/izbrisi/" method="POST">
+                                <input type="hidden" name="objekt_indeks" value="{{izpis.index(aktivnost)}}">
+                                <input type = "submit" value="IZBRIŠI AKTIVNOST">
+                            </form>
+                        </li>
+                    %end
+                %end
+            </ul>
+            <hr>
+        %end
+    <p>
+        <a href="http://127.0.0.1:8080/">NAZAJ</a>
+    </p>
+        
+</body>
+<style>
+    body{
+        background-color: rgb(220, 250, 255);
+    }
+    form { 
+        display: inline; 
+    }
+    div.podatki{
+        padding: 5px;
+        margin-left: 0px;
+        text-transform: uppercase;
+        font-size: 12pt;
+        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url({{url_slika}});
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    ul{
+        background: #aeecff;
+        padding: 20px;
+        width: 42%;
+        border-radius: 4px;
+    }
+    input[type=submit] {
+        width: 30%;
+        margin: 4px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 9pt;
+        color: black;
+        background-color:#5ec4ff;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    input[type=submit]:hover {
+        font-size: 10pt;
+        background-color: #ffffff;
+        font-weight: bold;
+        color: black;
+    }
+    a:link, a:visited {
+        border-radius: 4px;
+        color: black;
+        background-color: #ffcccc;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    a:hover, a:active {
+        background-color: #ffa1a1;
+        font-weight: bold;
+        color: white;
+    }
+    hr{
+        width: 45%;
+        margin: 0px;
+    }
+</style>

@@ -1,0 +1,153 @@
+<body>
+    <h2>PODROBNI PODATKI O VADBI</h2>
+    <hr>
+    <ul style="list-style-type:none;" class="glavna">
+        <div class="podatki">
+        <li><b>šport:</b> {{izpis.disciplina}}</li>
+        <li><b>vrsta vnosa:</b> {{izpis.oblika}}</li>
+        <li><b>poudarek:</b> {{izpis.poudarek}}</li>
+        <li><b>število serij znotraj treninga:</b> {{len(izpis.serije)}}</li>
+        <br>
+
+        %if izpis.ogrevanje[0] != "" or izpis.ogrevanje[1] != "" or izpis.ogrevanje[2] != "":
+            <li><b>podatki o ogrevanju:</b></li>
+        <ul style="list-style-type:none;">
+            %if izpis.ogrevanje[1] != "":
+                <li>opis ogrevanja: {{izpis.ogrevanje[1]}}</li>
+            %end
+            %if izpis.ogrevanje[0] != "":
+                <li>razdalja v metrih: {{izpis.ogrevanje[0]}}</li>
+            %end
+            %if izpis.ogrevanje[2] != "":
+                <li>trajanje ogrevanja: {{izpis.ogrevanje[2]}}</li>
+            %end
+        </ul>
+            <br>
+        %end
+
+        <li><b><u>podatki o serijah</u></b></li>
+        <ul style="list-style-type:none;">
+            %for i in range(len(izpis.serije)):
+                <br>
+                <li><b>podatki o {{i +1}}. seriji:</b></li>
+                    <ul style="list-style-type:none;">
+                        %if izpis.serije[i][0] != "":
+                            <li>razdalja ene ponovitve v metrih: {{izpis.serije[i][0]}}</li>
+                        %end
+                        %if izpis.serije[i][1] != "":
+                            <li>število ponovitev: {{izpis.serije[i][1]}}</li>
+                        %end
+                        %if izpis.serije[i][2] != "":
+                            <li>trajanje ponovitve: {{izpis.serije[i][2]}}</li>
+                        %end
+                        %if izpis.serije[i][3] != "":
+                            <li>opis: {{izpis.serije[i][3]}}</li>
+                        %end
+                    </ul>
+            %end
+            <br>
+        </ul>
+        %if izpis.dolžina != 0:
+            <li><b>skupna dolžina v metrih:</b> {{izpis.dolžina}}</li>   
+        %end
+        %if izpis.trajanje != None:      
+            <li><b>trajanje:</b> {{izpis.trajanje}}</li>
+        %end
+        %if izpis.kraj != "":
+            <li><b>kraj izvedbe:</b> {{izpis.kraj}}</li>
+        %end
+        %if izpis.datum != "":
+            <li><b>datum izvedbe:</b> {{izpis.datum}}</li>
+        %end
+        </div>
+    </ul>
+    <hr>
+    %if vrednost == 0:
+        <p>
+            <a href="http://127.0.0.1:8080/zadnje_aktivnosti/">NAZAJ NA ZADNJE AKTIVNOSTI</a>
+        </p>
+    %end
+
+    %if vrednost == 1:
+        <p>
+            <a href="http://127.0.0.1:8080/ideje/pregled/">NAZAJ NA PREGLED IDEJ</a>
+        </p>
+    %end
+
+    %if vrednost == 2:
+        <p>
+            <form action='/isci/'>
+                <input type = "hidden" name ="niz" value="{{kljuc}}">
+                <input type = "hidden" name="iskana_disciplina" value="{{izpis.disciplina}}">
+                <input type ="submit" value="NAZAJ NA REZULTATE ISKANJA">  
+            </form>
+        </p>
+    %end
+
+    %if vrednost == 3:
+        <p>
+            <a href="http://127.0.0.1:8080/{{izpis.disciplina}}/">NAZAJ NA VNAŠANJE PODATKOV</a>
+        </p>
+    %end
+        <p>
+            <a href="http://127.0.0.1:8080/">DOMOV</a>
+        </p>
+</body>
+<style>
+    body{
+        background-color: rgb(220, 250, 255);
+    }
+    form { 
+        display: inline; 
+    }
+    div.podatki{
+        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url("https://i1.sndcdn.com/artworks-000214362504-pzz4sl-t500x500.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 5px;
+        margin-left: 0px;
+        text-transform: uppercase;
+        font-size: 12pt;
+    }
+    ul.glavna{
+        background: #aeecff;
+        padding: 20px;
+        width: 42%;
+        border-radius: 4px;
+    }
+    a:link, a:visited {
+        border-radius: 4px;
+        color: black;
+        background-color: #ffcccc;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    a:hover, a:active {
+        background-color: #ffa1a1;
+        font-weight: bold;
+        color: white;
+    }
+    input[type=submit] {
+      width: 20%;
+      background-color: #ffcccc;
+      padding: 10px 16px;
+      margin: 4px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12pt;
+      font-family: 'Times New Roman', Times, serif;
+    }
+    input[type=submit]:hover {
+    background-color: #ffa1a1;
+    font-size: 12pt;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    }
+    hr{
+        width: 45%;
+        margin: 0px;
+    }
+</style>

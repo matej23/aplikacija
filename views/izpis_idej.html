@@ -1,0 +1,123 @@
+<body>
+    %url_slika = "https://i1.sndcdn.com/artworks-000214362504-pzz4sl-t500x500.jpg"
+    %if len(izpis) == 0:
+        <h2>ZAENKRAT ŠE NISTE VNESLI NOBENE IDEJE</h2>
+        <hr>
+    %else:
+        <h2>VNESLI STE SLEDEČE IDEJE:</h2>
+        <hr>
+        %for ideja in izpis:
+            <ul style="list-style-type:none;" class="glavni">
+                <div class="podatki">
+                    <li><b>ŠPORT</b>: {{ideja.disciplina}}</li>
+                    <li><b>POUDAREK</b>: {{ideja.poudarek}}</li>
+                    <li><b>ŠTEVILO SERIJ ZNOTRAJ TRENINGA</b>: {{len(ideja.serije)}}</li>       
+                    <li><b><u>PODATKI O SERIJAH</u>:</b></li>
+                    <ul style="list-style-type:none;">
+                        %for i in range(len(ideja.serije)):
+                            <li><b>PODATKI O {{i +1}}. SERIJI:</b></li>
+                                <ul style="list-style-type:none;">
+                                    %if ideja.serije[i][0] != "":
+                                        <li>RAZDALJA ENE PONOVITVE: {{ideja.serije[i][0]}}</li>
+                                    %end
+                                    %if ideja.serije[i][1] != "":
+                                        <li>ŠTEVILO PONOVITEV: {{ideja.serije[i][1]}}</li>
+                                    %end
+                                    %if ideja.serije[i][2] != "":
+                                        <li>TRAJANJE PONOVITVE: {{ideja.serije[i][2]}}</li>
+                                    %end
+                                    %if ideja.serije[i][3] != "":
+                                        <li>OPIS: {{ideja.serije[i][3]}}</li>
+                                    %end
+                                </ul>
+                        %end
+                    </ul>
+                    %if ideja.dolžina != 0:
+                        <li><b>SKUPNA DOLŽINA V METRIH</b>: {{ideja.dolžina}}m</li>   
+                    %end
+                    %if ideja.trajanje != None:      
+                        <li><b>TRAJANJE</b>: {{ideja.trajanje}}</li>
+                    %end
+                </div>
+                <li>
+                    <form action="/opravi/ideja/" method="POST">
+                    <input type = "hidden" name = "indeks_ideje" value="{{izpis.index(ideja)}}" required>
+                    <b>OPRAVI Z DNEM:</b> <input type = "date" name = "datum_ideja" value="{{danasnji_datum}}" required>
+                    <input type ="submit" value="OPRAVI IDEJO">       
+                    </form>
+                </li>
+            </ul>
+        <hr>
+        %end
+    %end
+    <p>
+        <a href="http://127.0.0.1:8080">NAZAJ</a>
+    </p>
+</body>
+<style>
+    body{
+        background-color: rgb(220, 250, 255);
+    }
+    ul.glavni{
+        background: #aeecff;
+        padding: 20px;
+        width: 52%;
+        border-radius: 4px;
+    }
+    input[type=date], select {
+      padding: 10px 16px;
+      margin: 4px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    div.podatki {
+        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url({{url_slika}});
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 5px;
+        margin-left: 0px;
+        text-transform: uppercase;
+        font-size: 12pt;
+    }
+    input[type=submit] {
+        width: 30%;
+        margin: 4px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 9pt;
+        color: black;
+        background-color:#5ec4ff;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    input[type=submit]:hover {
+        font-size: 10pt;
+        background-color: #ffffff;
+        font-weight: bold;
+        color: black;
+    }
+    a:link, a:visited {
+        border-radius: 4px;
+        color: black;
+        background-color: #ffcccc;
+        padding: 10px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    a:hover, a:active {
+        background-color: #ffa1a1;
+        font-weight: bold;
+        color: white;
+    }
+    hr{
+        width: 55%;
+        margin: 0px;
+    }
+</style>
