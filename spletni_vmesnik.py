@@ -306,7 +306,7 @@ def isci():
   disciplina = bottle.request.query.getunicode('iskana_disciplina')
   iskalni_niz = bottle.request.query.getunicode('niz')
 
-  sport_class = uporabnik.sport["disciplina"] 
+  sport_class = uporabnik.sport[disciplina] 
   povezava = sport_class.slika
 
   seznam_idej = sport_class.seznam_i
@@ -336,7 +336,7 @@ def podrobno_iskanje():
   disciplina = bottle.request.query.getunicode('disciplina')
   iskalni_niz = bottle.request.query.getunicode('iskalni_niz')
 
-  sport_class = uporabnik.sport["disciplina"] 
+  sport_class = uporabnik.sport[disciplina] 
 
   seznam_idej = sport_class.seznam_i
   seznam_treningov = sport_class.seznam_t
@@ -377,7 +377,7 @@ def opravi_idejo():
   vse_vadbe.dodaj_trening(objekt)
   seznam_class_sport.dodaj_trening(objekt)
 
-  uporabnik.v_datoteko
+  uporabnik.v_datoteko()
   nazaj = 1
   #pregled idej
 

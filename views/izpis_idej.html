@@ -14,7 +14,7 @@
                     <li><b>ŠTEVILO SERIJ ZNOTRAJ TRENINGA</b>: {{ideja['stevilo_serij']}}</li>       
                     <li><b><u>PODATKI O SERIJAH</u>:</b></li>
                     <ul style="list-style-type:none;">
-                        %for i in range(len(int(ideja['stevilo_serij']))):
+                        %for i in range(int(ideja['stevilo_serij'])):
                             <li><b>PODATKI O {{i +1}}. SERIJI:</b></li>
                                 <ul style="list-style-type:none;">
                                     %if ideja['serije'][i][0] != "":
