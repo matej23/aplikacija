@@ -114,38 +114,63 @@ def napaka(indeks):
 #drugi zaslon (zaslon za posamezen sport) 
 @bottle.get('/<disciplina>/')
 def stran_za_disciplino(disciplina):
-  return bottle.template('vse_discipline.html', sport = disciplina, url_slika = sporti_slike[f'{disciplina}'])
+  uporabnik = trenutni_uporabnik()
+  podatki = uporabnik.sport
+  podatki_za_disciplino = podatki[disciplina]
+  povezava = podatki_za_disciplino.slika 
+  return bottle.template('vse_discipline.html', sport = disciplina, url_slika = povezava)
 
 #-----------
 @bottle.get('/vnos/<disciplina>/<vrsta>/')
 def vnos(disciplina, vrsta):
+  uporabnik = trenutni_uporabnik()
 
   danasnji_datum = f"{datetime.datetime.now():%Y-%m-%d}"
 
   poudarek = bottle.request.query.getunicode('poudarek')
   stevilo_serij = bottle.request.query.getunicode('stevilo_serij')
 
-  vrsta_sporta = Disciplina(disciplina, vrsta, poudarek, stevilo_serij)
+  sport_vrsta = disciplina
+  podatki_sporti = uporabnik.sport 
+  podatki_class = podatki_sporti[sport_vrsta]
+  povezava = podatki_class.slika
 
-  return bottle.template('vnos_podatkov.html', vadba = vrsta_sporta, datum = danasnji_datum, url_slika = sporti_slike[f'{vrsta_sporta.panoga}'])
+  oblika = vrsta
+  if oblika == "ideja":
+    opravljenost = False
+  else:
+    opravljenost = True
 
+  novi_podatki = {"poudarek":poudarek, "stevilo_serij":stevilo_serij, "opravljenost":opravljenost, "disciplina":sport_vrsta,"oblika":oblika}
+
+  vadba_osnovni = {"disciplina":"", "poudarek":"", "opravljenost":"", "oblika":"", "stevilo_serij":""}
+  vadba_osnovni.update(novi_podatki)
+
+  return bottle.template('vnos_podatkov.html', vneseni_podatki = vadba_osnovni, datum = danasnji_datum, url_slika = povezava)
+
+#-----------
 @bottle.get('/vnos_podatkov/')
 def podrobni_podatki():
 
+  uporabnik = trenutni_uporabnik()
   #ze vnaprej vneseni podatki
   disciplina = bottle.request.query.getunicode('disciplina')
   vrsta = bottle.request.query.getunicode('oblika') 
   poudarek = bottle.request.query.getunicode('poudarek')
   stevilo_serij = bottle.request.query.getunicode('stevilo')
 
-  #----------
-  def pretvorba_zapis(ure, minute,sekunde):
-    if minute != 0 or sekunde != 0 or ure != 0:
-      return str(datetime.timedelta(hours= ure, minutes=minute, seconds=sekunde))
-    else:
-      return None
+  oblika = vrsta
+  if oblika == "ideja":
+    opravljenost = False
+  else:
+    opravljenost = True
 
-  #----------
+  podatki = {"poudarek":poudarek, "stevilo_serij":stevilo_serij, "opravljenost":opravljenost, "disciplina":disciplina,"oblika":oblika}
+  vadba = {"disciplina":"", "poudarek":"", "opravljenost":"", "oblika":"", "stevilo_serij":"", "datum":"", "kraj":"", "serije":"", "ogrevanje":"","dolzina":"", "trajanje":""}
+  vadba.update(podatki)
+  #do tu smo le nalozili ze vnesene podatke
+  #-----------
+
   #vnos za ogrevanje
 
   razdalja_ogrevanje = bottle.request.query.getunicode('razdalja_ogrevanja')
@@ -176,7 +201,7 @@ def podrobni_podatki():
 
   #-----
   #izracun dolzine za vadbo
-  def dolzina_vadbe(serije):
+  def dolzina_vadbe(serije,ogrevanje):
     dolzina = 0
     for serija in serije:
       if serija[0] != "":
@@ -186,8 +211,18 @@ def podrobni_podatki():
       dolzina += int(ogrevanje[0]) 
     return dolzina
 
+  skupna_dolzina = dolzina_vadbe(serije,ogrevanje)
   #-----
+  #pomozna funkcija za zapis casa
+  def pretvorba_zapis(ure, minute,sekunde):
+    if minute != 0 or sekunde != 0 or ure != 0:
+      return str(datetime.timedelta(hours= ure, minutes=minute, seconds=sekunde))
+    else:
+      return None
+  
+  #----------
   #izracun casa vadbe
+
   def izracun_casa(serije):
     cas_ure = 0
     cas_minute = 0
@@ -211,121 +246,141 @@ def podrobni_podatki():
   cas_oblika = pretvorba_zapis(ure_za_obliko, minute_za_obliko, sekunde_za_obliko)
 
   #-----
-  nov_sport = Disciplina(disciplina, vrsta, poudarek, stevilo_serij)
+  novi_podatki = {"datum":datum, "kraj":lokacija, "serije":serije, "ogrevanje":ogrevanje,"dolzina":skupna_dolzina, "trajanje":cas_oblika}
+  vadba.update(novi_podatki)
+  
+  seznam_class = uporabnik.seznam
+  sport_class = uporabnik.sport[disciplina]
 
-  if nov_sport.opravljeno:
-    zadnji_treningi.append(nov_sport)
-    vadbe_treningi.update({f'{nov_sport}':Vadba(disciplina, poudarek, nov_sport.opravljeno, datum, lokacija, serije, ogrevanje, dolzina_vadbe(serije), cas_oblika)})
-
+  if vadba["opravljenost"]:
+    seznam_class.dodaj_trening(vadba)
+    sport_class.dodaj_trening(vadba)
   else:
-    ideje.append(nov_sport)
-    vadbe_ideje.update({f'{nov_sport}':Vadba(disciplina, poudarek, nov_sport.opravljeno, datum, lokacija, serije, ogrevanje, dolzina_vadbe(serije), cas_oblika)})
+    seznam_class.dodaj_idejo(vadba)
+    sport_class.dodaj_idejo(vadba)
 
-  vadba = Vadba(disciplina, poudarek, nov_sport.opravljeno, datum, lokacija, serije, ogrevanje, dolzina_vadbe(serije), cas_oblika)
-
+  uporabnik.v_datoteko()
   nazaj = 3
   #vnasanje podatkov 
 
   return bottle.template('izpis_podatkov.html', izpis = vadba, vrednost = nazaj)
-
+#-----------------------------------------------------------------------------------
 @bottle.get('/zadnje_aktivnosti/')
 def izpis_zadnjih_aktivnosti():
+  uporabnik = trenutni_uporabnik()
+  seznam = uporabnik.seznam
+  zadnji_treningi = seznam.treningi
   return bottle.template('zadnje_aktivnosti.html', izpis = zadnji_treningi)
-
+#----------
 @bottle.post('/zadnje_aktivnosti/izbrisi/')
 def izbris_aktivnosti():
+  uporabnik = trenutni_uporabnik()
   objekt_indeks = int(bottle.request.forms.getunicode('objekt_indeks'))
-  del vadbe_treningi[f'{zadnji_treningi[objekt_indeks]}']
-  zadnji_treningi.remove(zadnji_treningi[objekt_indeks])
+
+  zadnji_treningi = uporabnik.seznam.treningi
+  za_izbris = zadnji_treningi[objekt_indeks]
+  uporabnik.seznam.odstrani_trening(za_izbris)
+
+  uporabnik.sport[za_izbris["disciplina"]].odstrani_trening(za_izbris)
+  uporabnik.v_datoteko()
 
   return bottle.redirect('/zadnje_aktivnosti/')
-
+#---------------
 @bottle.get('/zadnje_aktivnosti/podrobno/')
 def podrobno():
+  uporabnik = trenutni_uporabnik()
+  seznam_treningov = uporabnik.seznam.treningi
+
   objekt_indeks = bottle.request.query.getunicode('objekt_indeks')
-  objekt = zadnji_treningi[int(objekt_indeks)]
-  objekt_podrobno = vadbe_treningi[f'{objekt}']
+  objekt = seznam_treningov[int(objekt_indeks)]
 
   nazaj = 0
   #zadnje aktivnosti 
 
-  return bottle.template('izpis_podatkov.html', izpis = objekt_podrobno,vrednost = nazaj)
-#----
+  return bottle.template('izpis_podatkov.html', izpis = objekt, vrednost = nazaj)
+#------------------------------
 
 @bottle.get('/isci/')
 def isci():
+  uporabnik = trenutni_uporabnik()
   disciplina = bottle.request.query.getunicode('iskana_disciplina')
   iskalni_niz = bottle.request.query.getunicode('niz')
-  skupaj = ideje + zadnji_treningi
-  ustrezni = isci_po_poudarku(disciplina, iskalni_niz, skupaj)
-  return bottle.template('iskanje.html', izpisi = ustrezni, kljuc = iskalni_niz, sport = disciplina, url_slika = sporti_slike[f'{disciplina}'])
 
-def isci_po_poudarku(sport, beseda,vadbe):
+  sport_class = uporabnik.sport["disciplina"] 
+  povezava = sport_class.slika
+
+  seznam_idej = sport_class.seznam_i
+  seznam_treningov = sport_class.seznam_t
+  skupaj = seznam_treningov + seznam_idej
+
+  ustrezni = isci_po_poudarku(iskalni_niz, skupaj)
+
+  return bottle.template('iskanje.html', izpisi = ustrezni, kljuc = iskalni_niz, sport = disciplina, url_slika = povezava)
+
+def isci_po_poudarku(beseda, seznam_slovarjev):
     ustrezni = []
-    if len(vadbe) != 0:
-      for vadba in vadbe:
-          if beseda in vadba.poudarek.split() and vadba.panoga == sport:
-            ustrezni.append(vadba)
+    if len(seznam_slovarjev) != 0:
+      for slovar in seznam_slovarjev:
+          if beseda in slovar["poudarek"].split():
+            ustrezni.append(slovar)
           else:
             pass
     else:
       pass
     return ustrezni
-
+#-------------------------------
 @bottle.get('/isci/podrobno/')
 def podrobno_iskanje():
+  uporabnik = trenutni_uporabnik()
   objekt_indeks = int(bottle.request.query.getunicode('objekt_indeks'))
   disciplina = bottle.request.query.getunicode('disciplina')
   iskalni_niz = bottle.request.query.getunicode('iskalni_niz')
 
-  skupaj = ideje + zadnji_treningi
+  sport_class = uporabnik.sport["disciplina"] 
 
-  ustrezni = isci_po_poudarku(disciplina, iskalni_niz, skupaj)
+  seznam_idej = sport_class.seznam_i
+  seznam_treningov = sport_class.seznam_t
+  skupaj = seznam_treningov + seznam_idej
+
+  ustrezni = isci_po_poudarku(iskalni_niz, skupaj)
   objekt = ustrezni[objekt_indeks]
-
-  if objekt.opravljeno:
-    objekt_podrobno = vadbe_treningi[f'{objekt}']
-  else:
-    objekt_podrobno = vadbe_ideje[f'{objekt}']
 
   nazaj = 2
   #isci
 
-  return bottle.template('izpis_podatkov.html', izpis = objekt_podrobno, vrednost = nazaj, kljuc = iskalni_niz)
-
+  return bottle.template('izpis_podatkov.html', izpis = objekt, vrednost = nazaj, kljuc = iskalni_niz)
+#-----------------------------------
 @bottle.get('/ideje/pregled/')
 def prikazi_ideje():
-  ustrezni = []
-  for ideja in ideje:
-    dodaj = vadbe_ideje[f'{ideja}']
-    ustrezni.append(dodaj)
+  uporabnik = trenutni_uporabnik()
+  ustrezni = uporabnik.seznam.ideje
+
   datum = f'{datetime.datetime.now():%Y-%m-%d}'
   return bottle.template('izpis_idej.html', izpis = ustrezni, danasnji_datum = datum)
-
+#-----------------------
 @bottle.post('/opravi/ideja/')
 def opravi_idejo():
+  uporabnik = trenutni_uporabnik()
   indeks_ideje = int(bottle.request.forms.getunicode('indeks_ideje'))
   datum_opravljeno = bottle.request.forms.getunicode('datum_ideja')
 
-  ideja_kratko = ideje[indeks_ideje]
-  ideja_podrobno = vadbe_ideje[f'{ideje[indeks_ideje]}']
+  vse_ideje = uporabnik.seznam.ideje
+  objekt = vse_ideje[indeks_ideje]
+  vse_vadbe= uporabnik.seznam
+  vse_vadbe.odstrani_idejo(objekt)
 
-  del vadbe_ideje[f'{ideje[indeks_ideje]}']
-  ideje.remove(ideje[indeks_ideje])
+  disciplina = objekt["disciplina"]
+  seznam_class_sport = uporabnik.sport[disciplina]
+  seznam_class_sport.odstrani_idejo(objekt)
 
-  ideja_podrobno.datum = datum_opravljeno
-  ideja_podrobno.opravljenost = True
-  ideja_podrobno.oblika = "trening"
+  objekt.update({"datum" : datum_opravljeno})
+  vse_vadbe.dodaj_trening(objekt)
+  seznam_class_sport.dodaj_trening(objekt)
 
-  ideja_kratko.opravljeno = True
-  ideja_kratko.oblika = "trening"
-
-  vadbe_treningi.update({f'{ideja_kratko}': ideja_podrobno})
-  zadnji_treningi.append(ideja_kratko)
-
+  uporabnik.v_datoteko
   nazaj = 1
   #pregled idej
 
-  return bottle.template("izpis_podatkov.html", izpis = ideja_podrobno, vrednost = nazaj )
+  return bottle.template("izpis_podatkov.html", izpis = objekt, vrednost = nazaj )
 #----------------------------------------------------------------------------------------------
 bottle.run(debug=True, reloader=True)
